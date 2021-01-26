@@ -7,7 +7,7 @@ import {
 import Navbar from './core/components/Navbar';
 import Admin from './pages/Admin';
 import Catalog from './pages/Catalog';
-import ProductDetails from './pages/Catalog/Components/ProductCard/ProductDetails';
+import ProductDetails from './pages/Catalog/Components/ProductDetails';
 import Home from './pages/Home';
 
 const Routes = () => (
