@@ -2,7 +2,8 @@ import React from 'react';
 import {
     BrowserRouter,
     Switch,
-    Route
+    Route,
+    Redirect
   } from "react-router-dom";
 import Navbar from './core/components/Navbar';
 import Admin from './pages/Admin';
@@ -23,6 +24,7 @@ const Routes = () => (
         <Route path="/products/:productId">
           <ProductDetails />
         </Route>
+        <Redirect from="/admin" to="/admin/products" exact />
         <Route path="/admin">
           <Admin />
         </Route>
