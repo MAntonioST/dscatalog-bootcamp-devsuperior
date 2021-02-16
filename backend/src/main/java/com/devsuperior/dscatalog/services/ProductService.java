@@ -13,8 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devsuperior.dscatalog.DTO.CategoryDTO;
-import com.devsuperior.dscatalog.DTO.ProductDTO;
+import com.devsuperior.dscatalog.dto.CategoryDTO;
+import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
