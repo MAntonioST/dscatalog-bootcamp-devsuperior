@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.services;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -46,6 +47,7 @@ public class ProductService {
 	@Transactional
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
+		dto.setDate(Instant.now());
 	    convertDtoToEntity(dto, entity);
 		entity = repository.save(entity);
 		return new ProductDTO(entity, entity.getCategories());
