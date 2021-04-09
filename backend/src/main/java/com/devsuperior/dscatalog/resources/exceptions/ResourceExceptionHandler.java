@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
+import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -33,8 +33,8 @@ public class ResourceExceptionHandler {
 		
 	}
 	
-	@ExceptionHandler(DataBaseException.class)
-	public ResponseEntity<StandardError> database(DataBaseException e,
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandardError> database(DatabaseException e,
 		        HttpServletRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST; 
 		StandardError err = new StandardError();

@@ -27,8 +27,9 @@ public class ProductRepositoryTests {
 	private Long nonExistingId;
 	private Long countTotalProducts;
 	private Long countPCGamerProducts;
+	private Long countCategory3Products;
 	private PageRequest pageRequest;
-	private Long countTotalProductsCategory;
+	
 	
 	@BeforeEach
     void setUP()throws Exception {
@@ -37,11 +38,23 @@ public class ProductRepositoryTests {
     	countTotalProducts = 25L;
     	countPCGamerProducts = 21L;
     	pageRequest = PageRequest.of(0, 10);
-    	countTotalProductsCategory = 23L;
+    	countCategory3Products = 23L;
     }
 	
 	@Test
-	public void findShouldReturnAllProductsWhenCategoriesNotInformed() {
+	public void findShouldReturnOnlySelectedCategoryWhenCategoryInformed() {
+		
+		List<Category> categories = new ArrayList<>();
+		categories.add(new Category(3L, null));
+			
+		Page<Product> result = repository.find(categories, "", pageRequest);
+		
+		Assertions.assertFalse(result.isEmpty());
+		Assertions.assertEquals(countCategory3Products, result.getTotalElements());
+	}
+	
+	@Test
+	public void findShouldReturnAllProductsWhenCategoryNotInformed() {
 		
 		List<Category> categories = null;
 		
@@ -53,21 +66,8 @@ public class ProductRepositoryTests {
 	}
 	
 	@Test
-	public void findShouldReturnProductsWhenCategoriesInformed() {
-		
-		List<Category> categories = new ArrayList<>();
-		categories.add(new Category(3L, null));
-		
-		Page<Product> result = repository.find(categories, "", pageRequest);
-		
-		Assertions.assertFalse(result.isEmpty());
-		Assertions.assertEquals(countTotalProductsCategory, result.getTotalElements());
-	}
-	
-	
-	@Test
 	public void findShouldReturnAllProductsWhenNameIsEmpty() {
-		
+
 		String name = "";
 		
 		Page<Product> result = repository.find(null, name, pageRequest);
@@ -77,8 +77,8 @@ public class ProductRepositoryTests {
 	}
 	
 	@Test
-	public void findShouldReturnProductsWhenNameExistsIgnoreCase() {
-		
+	public void findShouldReturnProductsWhenNameExistsIgnoringCase() {
+
 		String name = "pc gAMer";
 		
 		Page<Product> result = repository.find(null, name, pageRequest);
@@ -88,23 +88,12 @@ public class ProductRepositoryTests {
 	}
 	
 	@Test
-	public void findShouldReturnNothingWhenNameDoesNotExists() {
-		
-		String name = "Camera";
-		
-		Page<Product> result = repository.find(null, name, pageRequest);
-		
-		Assertions.assertTrue(result.isEmpty());
-		
-	}
-	
-	@Test
 	public void findShouldReturnProductsWhenNameExists() {
 		
-		String name = "PC GAME";
+		String name = "PC Gamer";
 		
 		Page<Product> result = repository.find(null, name, pageRequest);
-		
+	
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals(countPCGamerProducts, result.getTotalElements());
 	}

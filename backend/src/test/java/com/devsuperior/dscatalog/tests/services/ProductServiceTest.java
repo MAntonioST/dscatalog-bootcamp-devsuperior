@@ -24,7 +24,7 @@ import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.ProductService;
-import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
+import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.devsuperior.dscatalog.tests.factory.ProductFactory;
 
@@ -71,7 +71,7 @@ public class ProductServiceTest {
 	}
 
 	@Test
-	void updateShouldReturnResourceNotFoundExceptionwhenIdDoesNotExists() throws Exception {
+	public void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() throws Exception {
 
 		dto = new ProductDTO();
 
@@ -81,7 +81,7 @@ public class ProductServiceTest {
 	}
 
 	@Test
-	void updateShouldReturnProductDTOwhenIdExists() throws Exception {
+	public void updateShouldReturnProductDTOwhenIdExists() throws Exception {
 
 		 dto = new ProductDTO();
 
@@ -91,7 +91,7 @@ public class ProductServiceTest {
 	}
 
 	@Test
-	void findByIdShouldResourceNotFoundExceptionwhenIdDoesNotExists() throws Exception {
+	public void findByIdShouldThrowResourceNotFoundExceptionwhenIdDoesNotExists() throws Exception {
 
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.findById(nonExistingId);
@@ -100,7 +100,7 @@ public class ProductServiceTest {
 	}
 
 	@Test
-	void findByIdShouldReturnProductDTOwhenIdExists() throws Exception {
+	public void findByIdShouldReturnProductDTOwhenIdExists() throws Exception {
 
 		dto = service.findById(existingId);
 
@@ -108,7 +108,7 @@ public class ProductServiceTest {
 	}
 
 	@Test
-	void findAllPagedShouldReturnPage() throws Exception {
+	public void findAllPagedShouldReturnPage() throws Exception {
 
 		Long categoryId = 0L;
 		String name = "";
@@ -124,7 +124,7 @@ public class ProductServiceTest {
 	@Test
 	public void deleteShouldThrowDataBaseExceptionWhenDependentId() {
 
-		Assertions.assertThrows(DataBaseException.class, () -> {
+		Assertions.assertThrows(DatabaseException.class, () -> {
 			service.delete(dependentId);
 		});
 
