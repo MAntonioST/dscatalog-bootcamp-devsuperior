@@ -1,4 +1,4 @@
-import { makeRequest } from 'core/utilis/request';
+import { makePrivateRequest } from 'core/utilis/request';
 import React, { useState } from 'react';
 import BaseForm from '../../BaseForm';
 import './styles.scss';
@@ -37,7 +37,7 @@ const Form = () => {
        imgUrl: 'https://fujiokadistribuidor.vteximg.com.br/arquivos/ids/178128',
        categories: [{ id: formData.category }]
       }
-    makeRequest({ url: '/products', method:'POST', data: payload}).then( () => {
+    makePrivateRequest({ url: '/products', method:'POST', data: payload}).then( () => {
       setFormData({ name: '', category: '', price: '', description: ''});
     })
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    BrowserRouter,
+    Router,
     Switch,
     Route,
     Redirect
@@ -11,9 +11,12 @@ import Catalog from './pages/Catalog';
 import ProductDetails from './pages/Catalog/Components/ProductDetails';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
+import history from './core/utilis/history';
+
+
 
 const Routes = () => (
-   <BrowserRouter>
+   <Router history={history}>
     <Navbar />
     <Switch>
         <Route path="/" exact>
@@ -34,7 +37,7 @@ const Routes = () => (
           <Admin />
         </Route>
     </Switch>
-   </BrowserRouter>
+   </Router>
 );
 
 export default Routes;
