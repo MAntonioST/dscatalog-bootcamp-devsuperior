@@ -12,6 +12,7 @@ import ProductDetails from './pages/Catalog/Components/ProductDetails';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import history from './core/utilis/history';
+import PrivateRoute from 'core/components/Routes/PrivateRoute';
 
 
 
