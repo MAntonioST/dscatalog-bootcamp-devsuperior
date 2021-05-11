@@ -12,7 +12,7 @@ import ProductDetails from './pages/Catalog/Components/ProductDetails';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import history from './core/utilis/history';
-import PrivateRoute from 'core/components/Routes/PrivateRoute';
+
 
 
 
@@ -29,8 +29,8 @@ const Routes = () => (
         <Route path="/products/:productId">
           <ProductDetails />
         </Route>
-        <Redirect from="/admin/auth" to="/admin/auth/login" exact />
-        <Route path="/admin/auth">
+        <Redirect from="auth" to="auth/login" exact />
+        <Route path="/auth">
            <Auth />
         </Route>
         <Redirect from="/admin" to="/admin/products" exact />
