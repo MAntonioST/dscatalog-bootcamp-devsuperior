@@ -61,5 +61,5 @@ type LoginResponse = {
   
     const { authorities } = getAccessTokenDecoded();
   
-    return routeRoles.some(role => authorities.includes(role));
+    return routeRoles.some(role => authorities?.includes(role));
   }
