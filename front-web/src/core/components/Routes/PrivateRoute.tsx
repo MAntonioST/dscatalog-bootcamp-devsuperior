@@ -1,5 +1,5 @@
 
-import { isAuthenticated , isAllowedByRole, Role } from "core/utilis/auth";
+import { isAuthenticated , isAllowedByRole, Role } from "core/utils/auth";
 import { Redirect, Route } from "react-router";
 
 type Props = {

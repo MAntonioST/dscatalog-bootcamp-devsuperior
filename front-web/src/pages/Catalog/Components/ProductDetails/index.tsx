@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { ReactComponent as ArrowIcon } from 'core/assets/images/arrow.svg';
 import { Product } from 'core/types/Product';
-import { makeRequest } from 'core/utilis/request';
+import { makeRequest } from 'core/utils/request';
 import ProductDescriptionLoader from '../Loaders/ProductDescriptionLoader';
 import ProductInfoLoader from '../Loaders/ProductInfoLoader';
 import './styles.scss';
@@ -18,7 +18,6 @@ const ProductDetails = () => {
    const [product, setProduct] = useState<Product>();
    const [isLoading, setIsLoading] = useState(false);
 
-   console.log(isLoading);
    useEffect(() => {
       setIsLoading(true);
       makeRequest({ url: `/products/${productId}` })

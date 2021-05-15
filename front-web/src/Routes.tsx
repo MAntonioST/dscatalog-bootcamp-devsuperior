@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {
     Router,
     Switch,
@@ -11,7 +11,7 @@ import Catalog from './pages/Catalog';
 import ProductDetails from './pages/Catalog/Components/ProductDetails';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
-import history from './core/utilis/history';
+import history from './core/utils/history';
 
 
 

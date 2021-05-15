@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductsResponse } from 'core/types/Product';
-import { makeRequest } from 'core/utilis/request';
+import { makeRequest } from 'core/utils/request';
 import ProductCardLoader from './Components/Loaders/ProductCardLoader';
 import ProductCard from './Components/ProductCard';
 import Pagination from 'core/components/Pagination';

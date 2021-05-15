@@ -1,4 +1,4 @@
-import { getAccessTokenDecoded, logout } from 'core/utilis/auth';
+import { getAccessTokenDecoded, logout } from 'core/utils/auth';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from "react-router-dom";
 import './styles.scss';

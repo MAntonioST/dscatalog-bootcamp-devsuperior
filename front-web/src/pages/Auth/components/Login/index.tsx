@@ -3,9 +3,9 @@ import ButtonIcon from 'core/components/ButtonIcon';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import AuthCard from '../Card';
 import './styles.scss';
-import { makeLogin } from 'core/utilis/request';
+import { makeLogin } from 'core/utils/request';
 import { useState } from 'react';
-import { saveSessionData } from 'core/utilis/auth';
+import { saveSessionData } from 'core/utils/auth';
 
 type FormState = {
     username: string;

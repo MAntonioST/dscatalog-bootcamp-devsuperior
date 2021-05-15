@@ -1,26 +1,54 @@
 
-import { makePrivateRequest } from 'core/utilis/request';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import BaseForm from '../../BaseForm';
 import './styles.scss';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import { useEffect } from 'react';
+import { Category } from 'core/types/Product';
+
 
 type FormState = {
   name: string;
   price: string;
   description: string;
-  imageUrl: string;
+  imgUrl: string;
+  categories: Category[];
 
 }
 
+type ParamsType = {
+  productId: string;
+}
 
 const Form = () => {
-  const { register, handleSubmit, formState: { errors }} = useForm<FormState>(); 
+  const { register, handleSubmit, setValue, formState: { errors }} = useForm<FormState>(); 
   const history = useHistory();
+  const { productId } = useParams<ParamsType>();
+  const isEditing = productId !== 'create';
+  const formTitle = isEditing ? 'Editar produto' : 'Cadastrar um produto';
+
+
+  useEffect(() => {
+    if(isEditing) {
+      makeRequest({ url: `/products/${productId}` })
+       .then(response => {
+       setValue('name', response.data.name);
+       setValue('price', response.data.price);
+       setValue('description', response.data.description);
+       setValue('imgUrl', response.data.imgUrl); 
+       setValue('categories', response.data.categories);   
+       })   
+    }   
+ }, [productId , isEditing, setValue]);
 
   const onSubmit = (data:FormState) => {
-   makePrivateRequest({ url: '/products', method: 'POST', data })
+   makePrivateRequest({ 
+     url: isEditing ? `/products/${productId}`: '/products', 
+     method: isEditing ? 'PUT':'POST', 
+     data 
+    })
    .then(() => {
       toast.info('Produto salvo com sucesso!');
       history.push('/admin/products');
@@ -32,7 +60,7 @@ const Form = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <BaseForm title="CADASTRAR UM PRODUTO">
+      <BaseForm title= {formTitle}>
         <div className="row">
           <div className="col-6">
           <div className="margin-bottom-30">
@@ -69,19 +97,17 @@ const Form = () => {
             </div>
             <div className="margin-bottom-30">
             <input
-              {...register('imageUrl', {
+              {...register('imgUrl', {
                required: "Campo obrigatório",
-               minLength: { value: 5, message: 'O campo deve ter no mínimo 5 caracteres' },
-               maxLength: { value: 60, message: 'O campo deve ter no máximo 60 caracteres' }
               })}
-              name="imageUrl"
+              name="imgUrl"
               type="text"
               className="form-control  input-base"
               placeholder="Imagem do produto"
             />
-            {errors.imageUrl && (
+            {errors.imgUrl && (
               <div className="invalid-feedback d-block">
-                {errors.imageUrl.message}
+                {errors.imgUrl.message}
               </div>
             )}
             </div>
