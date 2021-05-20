@@ -1,14 +1,16 @@
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import { useHistory, useParams } from 'react-router-dom';
-import { Category } from 'core/types/Product';
-import Select from 'react-select';
 import BaseForm from '../../BaseForm';
+import { Category } from 'core/types/Product';
 import './styles.scss';
-import PriceField from './PriceField';
+import ImageUpload from '../ImageUpload';
+
+
 
 export type FormState = {
   name: string;
@@ -19,7 +21,7 @@ export type FormState = {
 }
 
 type ParamsType = {
-  productId: string
+  productId: string;
 }
 
 const Form = () => {
@@ -28,8 +30,11 @@ const Form = () => {
   const { productId } = useParams<ParamsType>();
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [uploadedImgUrl, setUploadedImgUrl] = useState('');
+  const [productImgUrl, setProductImgUrl] = useState('');
+
   const isEditing = productId !== 'create';
-  const formTitle = isEditing ? 'Editar produto' : 'Cadastrar um produto';
+  const formTitle = isEditing ? 'Editar produto' : 'cadastrar um produto';
 
   useEffect(() => {
     if (isEditing) {
@@ -38,38 +43,49 @@ const Form = () => {
           setValue('name', response.data.name);
           setValue('price', response.data.price);
           setValue('description', response.data.description);
-          setValue('imgUrl', response.data.imgUrl);
+          setProductImgUrl(response.data.imgUrl);
           setValue('categories', response.data.categories);
-          setValue('categories', response.data.categories);
+
         })
     }
   }, [productId, isEditing, setValue]);
 
   useEffect(() => {
     setIsLoadingCategories(true);
-    makeRequest({ url: '/categories'})
+    makeRequest({ url: '/categories' })
       .then(response => setCategories(response.data.content))
-      .finally(() => setIsLoadingCategories(false))
+      .finally(() => setIsLoadingCategories(false));
   }, []);
 
+ 
+
   const onSubmit = (data: FormState) => {
-    makePrivateRequest({ 
-      url: isEditing ? `/products/${productId}` : '/products', 
-      method: isEditing ? 'PUT' : 'POST', 
-      data 
+    const payload = {
+      ...data,
+      imgUrl: uploadedImgUrl || productImgUrl
+    }
+
+    makePrivateRequest({
+      url: isEditing ? `/products/${productId}` : '/products',
+      method: isEditing ? 'PUT' : 'POST',
+      data: payload
     })
       .then(() => {
-        toast.info('Produto salvo com sucesso!')
-        history.push('/admin/products')
+        toast.info('Produto salvo com sucesso!');
+        history.push('/admin/products');
       })
       .catch(() => {
-        toast.error('Erro ao salvar produto!')
-      });
+        toast.error('Erro ao salvar produto!');
+      })
+  }
+
+  const onUploadSuccess = (imgUrl: string) => {
+    setUploadedImgUrl(imgUrl);
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <BaseForm 
+    <form onSubmit={handleSubmit(onSubmit)} data-testid="products-form">
+      <BaseForm
         title={formTitle}
       >
         <div className="row">
@@ -117,7 +133,14 @@ const Form = () => {
               )}
             </div>
             <div className="margin-bottom-30">
-              <PriceField control={control} />
+              <input
+                ref={register({ required: "Campo obrigatório" })}
+                name="price"
+                type="number"
+                className="form-control input-base"
+                placeholder="Preço"
+                data-testid="price"
+              />
               {errors.price && (
                 <div className="invalid-feedback d-block">
                   {errors.price.message}
@@ -125,19 +148,10 @@ const Form = () => {
               )}
             </div>
             <div className="margin-bottom-30">
-              <input
-                ref={register({ required: "Campo obrigatório" })}
-                name="imgUrl"
-                type="text"
-                className="form-control input-base"
-                placeholder="Imagem do produto"
-                data-testid="imgUrl"
+              <ImageUpload
+                onUploadSuccess={onUploadSuccess}
+                productImgUrl={productImgUrl}
               />
-              {errors.imgUrl && (
-                <div className="invalid-feedback d-block">
-                  {errors.imgUrl.message}
-                </div>
-              )}
             </div>
           </div>
           <div className="col-6">
@@ -152,14 +166,14 @@ const Form = () => {
             />
             {errors.description && (
               <div className="invalid-feedback d-block">
-                {errors.description.message}
+                {errors.description}
               </div>
             )}
           </div>
         </div>
       </BaseForm>
     </form>
-  );
+  )
 }
 
 export default Form;
